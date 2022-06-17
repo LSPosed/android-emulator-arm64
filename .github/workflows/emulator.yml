@@ -33,7 +33,7 @@ jobs:
           cd external/qemu
           ccache -z
           python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --ccache auto --minbuild --no-tests
-          ccache -p
+          ccache -s
           find objs/distribution/emulator -type f -exec sh -c "file {} | grep -Pi ': elf (32|64)-bit' > /dev/null" \; -print | xargs llvm-strip --strip-all
       - name: upload
         uses: actions/upload-artifact@v2
