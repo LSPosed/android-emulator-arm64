@@ -12,6 +12,7 @@ jobs:
           pip3 install absl-py urlfetch
           sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
           ccache -o max_size=20G
+          ccache -o hard_link=true
       - name: download
         run: |
           git config --global user.email "you@example.com"
