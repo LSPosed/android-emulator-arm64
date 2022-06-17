@@ -18,5 +18,7 @@ jobs:
           repo sync -vcj 12
       - name: build
         run: |
+          sed -i 's/kSigStackSize = std::max/kSigStackSize = std::max<unsigned>/g' external/google-breakpad/src/client/linux/handler/exception_handler.cc
+          sed -i 's/constexpr size_t stack_size = MINSIGSTKSZ/static size_t stack_size = MINSIGSTKSZ/g' external/qemu/android/third_party/crashpad/client/crashpad_client_linux_test.cc
           cd external/qemu
           python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --cache auto
