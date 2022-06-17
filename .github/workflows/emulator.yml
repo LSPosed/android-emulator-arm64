@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: deps
         run: |
-          apt-get update && apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache repo git
+          sudo apt-get update && sudo apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache repo git
           pip3 install absl-py urlfetch
       - name: download
         run: |
