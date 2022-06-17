@@ -34,7 +34,6 @@ jobs:
           ccache -z
           python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --ccache auto --minbuild --no-tests
           ccache -p
-          - name: Upload symbols
       - name: upload
         uses: actions/upload-artifact@v2
         with:
