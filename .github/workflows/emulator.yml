@@ -8,10 +8,12 @@ jobs:
     steps:
       - name: deps
         run: |
-          apt-get update && apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache
+          apt-get update && apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache repo git
           pip3 install absl-py urlfetch
       - name: download
         run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
           repo init -u https://android.googlesource.com/platform/manifest -b emu-master-dev --depth=1
           repo sync -vcj 12
       - name: build
