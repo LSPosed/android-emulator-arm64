@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: deps
         run: |
-          sudo apt-get update && sudo apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache repo git
+          sudo apt-get update && sudo apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache repo git llvm
           pip3 install absl-py urlfetch
           sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
           ccache -o max_size=20G
@@ -34,6 +34,7 @@ jobs:
           ccache -z
           python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --ccache auto --minbuild --no-tests
           ccache -p
+          find objs/distribution/emulator -type f -exec sh -c "file {} | grep -Pi ': elf (32|64)-bit' > /dev/null" \; -print | xargs llvm-strip --strip-all
       - name: upload
         uses: actions/upload-artifact@v2
         with:
