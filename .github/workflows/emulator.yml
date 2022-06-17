@@ -30,7 +30,7 @@ jobs:
           sed -i 's/constexpr size_t stack_size = MINSIGSTKSZ/static size_t stack_size = MINSIGSTKSZ/g' external/qemu/android/third_party/crashpad/client/crashpad_client_linux_test.cc
           cd external/qemu
           ccache -z
-          python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --cache auto
+          python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --ccache auto --minbuild --no-tests
           ccache -p
           - name: Upload symbols
       - name: upload
