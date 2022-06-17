@@ -16,9 +16,24 @@ jobs:
           git config --global user.name "Your Name"
           repo init -u https://android.googlesource.com/platform/manifest -b emu-master-dev --depth=1
           repo sync -vcj 12
+          - name: Cache native build
+      - name: ccache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.ccache
       - name: build
         run: |
           sed -i 's/kSigStackSize = std::max/kSigStackSize = std::max<unsigned>/g' external/google-breakpad/src/client/linux/handler/exception_handler.cc
           sed -i 's/constexpr size_t stack_size = MINSIGSTKSZ/static size_t stack_size = MINSIGSTKSZ/g' external/qemu/android/third_party/crashpad/client/crashpad_client_linux_test.cc
           cd external/qemu
+          ccache -z
           python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --cache auto
+          ccache -p
+          - name: Upload symbols
+      - name: upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: emulator
+          path: |
+            external/qemu/objs/distribution/emulator/*
