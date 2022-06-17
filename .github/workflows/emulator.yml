@@ -22,6 +22,8 @@ jobs:
         with:
           path: |
             ~/.ccache
+          key: cache-${{ github.sha }}
+          restore-keys: cache-
       - name: build
         run: |
           sed -i 's/kSigStackSize = std::max/kSigStackSize = std::max<unsigned>/g' external/google-breakpad/src/client/linux/handler/exception_handler.cc
