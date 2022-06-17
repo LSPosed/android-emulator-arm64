@@ -1,1 +1,20 @@
-# android-emulator-aarch64
+name: Build Emulator
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: deps
+        run: |
+          apt-get update && apt-get install -y python3 python-is-python3 crossbuild-essential-arm64 mesa-common-dev ccache
+          pip3 install absl-py urlfetch
+      - name: download
+        run: |
+          repo init -u https://android.googlesource.com/platform/manifest -b emu-master-dev --depth=1
+          repo sync -vcj 12
+      - name: build
+        run: |
+          cd external/qemu
+          python android/build/python/cmake.py --noqtwebengine --noshowprefixforinfo --target linux_aarch64 --config release --strip --cache auto
