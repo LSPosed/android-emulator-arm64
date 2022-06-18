@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.ccache
+            ~/.cache/ccache
           key: cache-${{ github.sha }}
           restore-keys: cache-
       - name: build
